@@ -13,7 +13,6 @@ set -euo pipefail
 #   IM_VERSION=7.1.1-38 (optional)
 #   PREFIX=$HOME/.local  (optional)
 
-IM_VERSION="${IM_VERSION:-7.1.1-38}"
 PREFIX="${PREFIX:-$HOME/.local}"
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
@@ -51,21 +50,19 @@ mkdir -p "$HOME/.config/vast-bootstrap"
 cp -f "$REPO_ROOT/zshrc/functions.zsh" "$HOME/.config/vast-bootstrap/functions.zsh"
 cp -f "$REPO_ROOT/zshrc/.zshrc" "$HOME/.zshrc"
 
-echo "==> Building ImageMagick ${IM_VERSION} from source into ${PREFIX}"
+echo "==> Building ImageMagick from source into ${PREFIX}"
 mkdir -p "$HOME/.cache/imagemagick-src"
 cd "$HOME/.cache/imagemagick-src"
 
-TARBALL="ImageMagick-${IM_VERSION}.tar.gz"
-URL="https://download.imagemagick.org/ImageMagick/download/releases/${TARBALL}"
+URL="https://imagemagick.org/download/ImageMagick.tar.gz"
 
 if [ ! -f "$TARBALL" ]; then
   echo "    Downloading $URL"
   curl -fL "$URL" -o "$TARBALL"
 fi
 
-rm -rf "ImageMagick-${IM_VERSION}"
 tar -xzf "$TARBALL"
-cd "ImageMagick-${IM_VERSION}"
+cd ImageMagick-7*
 
 ./configure \
   --prefix="$PREFIX" \
